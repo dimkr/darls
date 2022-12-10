@@ -1,0 +1,53 @@
+name: build
+
+on:
+  schedule:
+    - cron: '0 0 * * SAT'
+  workflow_dispatch:
+    branches:
+      - master
+
+jobs:
+  build:
+    uses: vanilla-dpup/woof-CE/.github/workflows/build.yml@vanilladpup-10.0.x
+    with:
+      repo: vanilla-dpup/woof-CE
+      ref: vanilladpup-10.0.x
+      name: DARLS
+      version: 10.0.${{ github.run_number }}
+      arch: x86_64
+      compat-distro: debian
+      compat-distro-version: bookworm64
+      prefix: darls
+      kernel: debian-bookworm
+      artifact: darls-x86_64-10.0.${{ github.run_number }}
+      retention: 1
+      variant: dwl
+  upload:
+    needs: build
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: darls-x86_64-10.0.${{ github.run_number }}
+          path: .
+      - name: Rename ISO
+        run: mv -f *.iso darls-10.0.${{ github.run_number }}.iso
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: darls-x86_64-10.0.${{ github.run_number }}
+          tag_name: darls-x86_64-10.0.${{ github.run_number }}
+          fail_on_unmatched_files: true
+          files: |
+            *.iso
+            kernel_sources-*.sfs
+      - name: Delete old releases
+        uses: dev-drprasad/delete-older-releases@v0.2.1
+        with:
+          keep_latest: 1
+          delete_tag_pattern: darls-x86_64-10.0.
+          delete_tags: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
