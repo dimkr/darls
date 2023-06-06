@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    uses: vanilla-dpup/woof-CE/.github/workflows/build.yml@vanilladpup-10.0.x
+    uses: vanilla-dpup/woof-CE/.github/workflows/build.yml@vanilladpup-11.0.x
     with:
       repo: vanilla-dpup/woof-CE
       ref: vanilladpup-10.0.x
