@@ -32,8 +32,10 @@ jobs:
         with:
           name: darls-x86_64-10.0.${{ github.run_number }}
           path: .
-      - name: Rename ISO
-        run: mv -f *.iso darls-10.0.${{ github.run_number }}.iso
+      - name: Rename images
+        run: |
+          mv -f *-bios.img.gz darls-10.0.${{ github.run_number }}-bios.img.gz
+          mv -f *-uefi.img.gz darls-10.0.${{ github.run_number }}-uefi.img.gz
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
@@ -41,7 +43,7 @@ jobs:
           tag_name: darls-x86_64-10.0.${{ github.run_number }}
           fail_on_unmatched_files: true
           files: |
-            *.iso
+            *.img.gz
             kernel_sources-*.sfs
       - name: Delete old releases
         uses: dev-drprasad/delete-older-releases@v0.2.1
