@@ -17,9 +17,9 @@ jobs:
       version: 10.0.${{ github.run_number }}
       arch: x86_64
       compat-distro: debian
-      compat-distro-version: bookworm64
+      compat-distro-version: trixie64
       prefix: vanilladpup
-      kernel: debian-bookworm
+      kernel: debian-trixie
       artifact: darls-x86_64-10.0.${{ github.run_number }}
       retention: 1
       variant: dwl
