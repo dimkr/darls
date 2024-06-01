@@ -44,7 +44,7 @@ jobs:
           fail_on_unmatched_files: true
           files: |
             *.img.gz
-            kernel_sources-*.sfs
+            woof-CE.tar.gz
       - name: Delete old releases
         uses: dev-drprasad/delete-older-releases@v0.2.1
         with:
