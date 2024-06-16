@@ -25,10 +25,10 @@ jobs:
       variant: dwl
   upload:
     needs: build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     steps:
       - name: Download build artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: darls-x86_64-10.0.${{ github.run_number }}
           path: .
@@ -37,7 +37,7 @@ jobs:
           mv -f *-bios.img.gz darls-10.0.${{ github.run_number }}-bios.img.gz
           mv -f *-uefi.img.gz darls-10.0.${{ github.run_number }}-uefi.img.gz
       - name: Create Release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           name: darls-x86_64-10.0.${{ github.run_number }}
           tag_name: darls-x86_64-10.0.${{ github.run_number }}
@@ -46,7 +46,7 @@ jobs:
             *.img.gz
             woof-CE.tar.gz
       - name: Delete old releases
-        uses: dev-drprasad/delete-older-releases@v0.2.1
+        uses: dev-drprasad/delete-older-releases@v0.3.4
         with:
           keep_latest: 1
           delete_tag_pattern: darls-x86_64-10.0.
